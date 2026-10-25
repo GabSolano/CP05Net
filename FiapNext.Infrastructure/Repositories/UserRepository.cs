@@ -13,7 +13,7 @@ public class UserRepository : IUserRepository
     private static readonly List<User> FallbackUsers = new()
     {
         new User("Coordenação NEXT (Admin)", "admin@fiap.com.br", "Admin@123", "Admin"),
-        new User("Aluno FIAP (Usuario)", "aluno@fiap.com.br", "Aluno@123", "Usuario")
+        new User("Gabriel Costa Solano (2TDSPV)", "aluno@fiap.com.br", "Aluno@123", "Usuario")
     };
 
     public UserRepository(MongoDbContext context)

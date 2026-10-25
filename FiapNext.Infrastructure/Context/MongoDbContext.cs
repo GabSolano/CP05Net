@@ -49,8 +49,37 @@ public class MongoDbContext
         if (count == 0)
         {
             var admin = new User("Coordenação NEXT", "admin@fiap.com.br", "Admin@123", "Admin");
-            var aluno = new User("Aluno FIAP", "aluno@fiap.com.br", "Aluno@123", "Usuario");
+            var aluno = new User("Gabriel Costa Solano", "aluno@fiap.com.br", "Aluno@123", "Usuario");
             await Users.InsertManyAsync(new[] { admin, aluno });
+        }
+
+        // Seed do grupo oficial dos integrantes
+        var grupoCount = await Grupos.CountDocumentsAsync(Builders<Grupo>.Filter.Empty);
+        if (grupoCount == 0)
+        {
+            var grupoIntegrantes = new Grupo(
+                nome: "Equipe NEXT 2TDSPV",
+                turma: "2TDSPV",
+                integrantes: new[]
+                {
+                    "Gabriel Costa Solano (RM562325)",
+                    "Leandro Guarido (RM561760)",
+                    "Kaiky Pereira Rodrigues (RM564578)"
+                }
+            );
+            await Grupos.InsertOneAsync(grupoIntegrantes);
+
+            var trabalhoInicial = new Trabalho(
+                titulo: "Ecossistema Inteligente de Gestão FIAP NEXT",
+                descricao: "API RESTful corporativa para gestão de projetos acadêmicos e jurados do festival FIAP NEXT.",
+                categoria: "Enterprise .NET & NoSQL",
+                linkRepositorio: "https://github.com/gabriel-solano/fiap-next-api",
+                linkPitch: "https://youtube.com/watch?v=pitch_fiap_next",
+                grupoId: grupoIntegrantes.Id,
+                nota: 10.0m,
+                relevancia: 98.0m
+            );
+            await Trabalhos.InsertOneAsync(trabalhoInicial);
         }
     }
 }

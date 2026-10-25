@@ -8,7 +8,15 @@
 > **Checkpoint 5**  
 > **Disciplina:** Advanced Business Development with .NET  
 > **Curso:** Tecnologia em Análise e Desenvolvimento de Sistemas (2TDS - 2026)  
+> **Turma:** 2TDSPV  
 > **Professor:** Alex Sander Resende de Deus  
+
+### 👥 Integrantes do Grupo
+| Nome | RM | Turma |
+| :--- | :---: | :---: |
+| **Gabriel Costa Solano** | 562325 | 2TDSPV |
+| **Leandro Guarido** | 561760 | 2TDSPV |
+| **Kaiky Pereira Rodrigues** | 564578 | 2TDSPV |
 
 ---
 

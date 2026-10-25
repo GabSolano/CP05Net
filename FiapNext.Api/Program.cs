@@ -107,11 +107,15 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "FIAP NEXT - API RESTful de Gestão de Trabalhos e Grupos",
         Version = "v1",
-        Description = "API corporativa desenvolvida para o festival FIAP NEXT com Clean Architecture, NoSQL (MongoDB), HATEOAS Nível 3, JWT & RBAC e Observabilidade.",
+        Description = "API corporativa desenvolvida para o festival FIAP NEXT com Clean Architecture, NoSQL (MongoDB), HATEOAS Nível 3, JWT & RBAC e Observabilidade.\n\n" +
+                      "Integrantes (Turma 2TDSPV):\n" +
+                      "- Gabriel Costa Solano (RM562325)\n" +
+                      "- Leandro Guarido (RM561760)\n" +
+                      "- Kaiky Pereira Rodrigues (RM564578)",
         Contact = new OpenApiContact
         {
-            Name = "Turma 2TDSPV - FIAP 2026",
-            Email = "contato@fiap.com.br"
+            Name = "Gabriel Costa Solano | Leandro Guarido | Kaiky Pereira Rodrigues - 2TDSPV",
+            Email = "rm562325@fiap.com.br"
         }
     });
 
