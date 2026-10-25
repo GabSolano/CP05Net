@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="FiapNext.Api/FiapNext.Api.csproj" />
+  <Project Path="FiapNext.Application/FiapNext.Application.csproj" />
+  <Project Path="FiapNext.Domain/FiapNext.Domain.csproj" />
+  <Project Path="FiapNext.Infrastructure/FiapNext.Infrastructure.csproj" />
+  <Project Path="FiapNext.Tests.Unit/FiapNext.Tests.Unit.csproj" />
+</Solution>
