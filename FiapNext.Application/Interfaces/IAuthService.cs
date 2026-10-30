@@ -11,5 +11,7 @@ public interface ITokenService
 public interface IAuthService
 {
     Task<LoginResponse> LoginAsync(LoginRequest request, CancellationToken ct = default);
+    Task<UserResponse> RegisterAsync(RegisterUserRequest request, CancellationToken ct = default);
+    Task<IReadOnlyList<UserResponse>> GetAllUsersAsync(CancellationToken ct = default);
     Task<User?> GetByEmailAsync(string email, CancellationToken ct = default);
 }

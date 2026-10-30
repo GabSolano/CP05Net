@@ -44,7 +44,7 @@ public static class MongoMappings
                 BsonClassMap.RegisterClassMap<Grupo>(cm =>
                 {
                     cm.AutoMap();
-                    cm.MapIdProperty(g => g.Id)
+                    cm.IdMemberMap
                       .SetIdGenerator(GuidGenerator.Instance)
                       .SetSerializer(new GuidSerializer(BsonType.String));
                     cm.MapProperty(g => g.Nome).SetElementName("nome");
@@ -59,7 +59,7 @@ public static class MongoMappings
                 BsonClassMap.RegisterClassMap<Trabalho>(cm =>
                 {
                     cm.AutoMap();
-                    cm.MapIdProperty(t => t.Id)
+                    cm.IdMemberMap
                       .SetIdGenerator(GuidGenerator.Instance)
                       .SetSerializer(new GuidSerializer(BsonType.String));
                     cm.MapProperty(t => t.Titulo).SetElementName("titulo");
@@ -86,7 +86,7 @@ public static class MongoMappings
                 BsonClassMap.RegisterClassMap<User>(cm =>
                 {
                     cm.AutoMap();
-                    cm.MapIdProperty(u => u.Id)
+                    cm.IdMemberMap
                       .SetIdGenerator(GuidGenerator.Instance)
                       .SetSerializer(new GuidSerializer(BsonType.String));
                     cm.MapProperty(u => u.Nome).SetElementName("nome");

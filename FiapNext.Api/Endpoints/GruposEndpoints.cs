@@ -62,6 +62,24 @@ public static class GruposEndpoints
         .ProducesProblem(StatusCodes.Status401Unauthorized)
         .RequireAuthorization();
 
+        // Consulta Pública de Grupos (Sem necessidade de token)
+        group.MapGet("/publico", async (
+            [FromServices] IGrupoService grupoService,
+            [FromServices] IHateoasService hateoasService,
+            HttpContext httpContext,
+            CancellationToken ct) =>
+        {
+            var baseUrl = GetBaseUrl(httpContext);
+            var grupos = await grupoService.GetAllAsync(ct);
+            var enveloped = grupos.Select(g => hateoasService.EnvelopGrupo(g, isAdmin: false, baseUrl)).ToList();
+
+            return Results.Ok(enveloped);
+        })
+        .WithName("ListarGruposPublico")
+        .WithSummary("Consulta pública das equipes participantes (Aberta)")
+        .Produces<IReadOnlyList<ResourceEnvelope<GrupoResponse>>>(StatusCodes.Status200OK)
+        .AllowAnonymous();
+
         // Consulta de Grupo por ID (Autenticado)
         group.MapGet("/{id:guid}", async (
             [FromRoute] Guid id,

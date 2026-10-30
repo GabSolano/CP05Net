@@ -98,6 +98,46 @@ public static class TrabalhosEndpoints
         .ProducesProblem(StatusCodes.Status401Unauthorized)
         .RequireAuthorization();
 
+        // Consulta Pública de Trabalhos (Visitantes e Consultores Públicos sem token obrigatório)
+        group.MapGet("/publico", async (
+            [FromQuery] string? titulo,
+            [FromQuery] decimal? minNota,
+            [FromQuery] decimal? maxNota,
+            [FromQuery] decimal? minRelevancia,
+            [FromQuery] decimal? maxRelevancia,
+            [FromQuery] string? sortBy,
+            [FromQuery] string? sortOrder,
+            [FromQuery] int? skip,
+            [FromQuery] int? limit,
+            [FromServices] ITrabalhoService trabalhoService,
+            [FromServices] IHateoasService hateoasService,
+            HttpContext httpContext,
+            CancellationToken ct) =>
+        {
+            var filter = new TrabalhoFilterParams(
+                Titulo: titulo,
+                MinNota: minNota,
+                MaxNota: maxNota,
+                MinRelevancia: minRelevancia,
+                MaxRelevancia: maxRelevancia,
+                SortBy: sortBy,
+                SortOrder: sortOrder ?? "asc",
+                Skip: skip ?? 0,
+                Limit: limit ?? 10
+            );
+
+            var baseUrl = GetBaseUrl(httpContext);
+            var (items, totalCount) = await trabalhoService.GetPagedAsync(filter, ct);
+            var result = hateoasService.EnvelopTrabalhosPaged(items, filter, totalCount, isAdmin: false, baseUrl);
+
+            return Results.Ok(result);
+        })
+        .WithName("ListarTrabalhosPublico")
+        .WithSummary("Consulta pública de trabalhos (Consultores Públicos e Visitantes)")
+        .WithDescription("Permite a busca aberta e filtrada dos projetos submetidos sem necessidade de token JWT.")
+        .Produces<PagedResult<ResourceEnvelope<TrabalhoResponse>>>(StatusCodes.Status200OK)
+        .AllowAnonymous();
+
         // RF04 - Consulta por ID (Usuários autenticados)
         group.MapGet("/{id:guid}", async (
             [FromRoute] Guid id,

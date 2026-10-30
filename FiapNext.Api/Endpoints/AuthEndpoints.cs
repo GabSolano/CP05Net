@@ -27,6 +27,33 @@ public static class AuthEndpoints
         .ProducesProblem(StatusCodes.Status401Unauthorized)
         .AllowAnonymous();
 
+        group.MapPost("/register", async (
+            [FromBody] RegisterUserRequest request,
+            [FromServices] IAuthService authService,
+            CancellationToken ct) =>
+        {
+            var user = await authService.RegisterAsync(request, ct);
+            return Results.Created($"/api/auth/users/{user.Id}", user);
+        })
+        .WithName("RegistrarUsuario")
+        .WithSummary("Registro de novos usuários, alunos e consultores públicos")
+        .WithDescription("Permite o cadastro aberto de usuários (roles: Usuario, Consultor, Admin) para acesso ao festival.")
+        .Produces<UserResponse>(StatusCodes.Status201Created)
+        .ProducesProblem(StatusCodes.Status400BadRequest)
+        .AllowAnonymous();
+
+        group.MapGet("/users", async (
+            [FromServices] IAuthService authService,
+            CancellationToken ct) =>
+        {
+            var users = await authService.GetAllUsersAsync(ct);
+            return Results.Ok(users);
+        })
+        .WithName("ListarUsuarios")
+        .WithSummary("Lista todos os usuários e consultores registrados")
+        .Produces<IReadOnlyList<UserResponse>>(StatusCodes.Status200OK)
+        .RequireAuthorization();
+
         return app;
     }
 }

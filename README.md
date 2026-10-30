@@ -3,7 +3,7 @@
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas%20%2F%20NoSQL-green.svg)](https://www.mongodb.com/)
 [![RESTful](https://img.shields.io/badge/Maturidade-HATEOAS%20Nível%203-blue.svg)](#3-hateoas-e-maturidade-restful-nível-3)
-[![Testes](https://img.shields.io/badge/Testes-50%20Passando%20(xUnit%20%2B%20Moq)-brightgreen.svg)](#7-testes-automatizados-xunit--moq--fluentassertions)
+[![Testes](https://img.shields.io/badge/Testes-53%20Passando%20(xUnit%20%2B%20Moq)-brightgreen.svg)](#7-testes-automatizados-xunit--moq--fluentassertions)
 
 > **Checkpoint 5**  
 > **Disciplina:** Advanced Business Development with .NET  
@@ -207,7 +207,7 @@ A API iniciará e a documentação interativa estará disponível em:
 
 ### RF01 - Autenticação e Login (JWT)
 ```bash
-curl -X POST http://localhost:5000/api/auth/login \
+curl -X POST http://localhost:5240/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "admin@fiap.com.br",
@@ -215,9 +215,31 @@ curl -X POST http://localhost:5000/api/auth/login \
   }'
 ```
 
+### Registro de Novos Usuários / Alunos / Consultores
+```bash
+curl -X POST http://localhost:5240/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nome": "Dr. Carlos Consultor",
+    "email": "carlos.consultor@fiap.com.br",
+    "senha": "Consultor@123",
+    "role": "Consultor"
+  }'
+```
+
+### Consulta Pública de Trabalhos (Visitantes e Consultores Públicos sem Token)
+```bash
+curl -X GET "http://localhost:5240/api/trabalhos/publico?titulo=gestao&skip=0&limit=10"
+```
+
+### Consulta Pública de Grupos Participantes (Sem Token)
+```bash
+curl -X GET http://localhost:5240/api/grupos/publico
+```
+
 ### Cadastro de Grupo (Admin)
 ```bash
-curl -X POST http://localhost:5000/api/grupos \
+curl -X POST http://localhost:5240/api/grupos \
   -H "Authorization: Bearer <SEU_TOKEN_ADMIN>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -229,7 +251,7 @@ curl -X POST http://localhost:5000/api/grupos \
 
 ### RF02 - Cadastro de Trabalhos (Escrita - Somente Admin)
 ```bash
-curl -X POST http://localhost:5000/api/trabalhos \
+curl -X POST http://localhost:5240/api/trabalhos \
   -H "Authorization: Bearer <SEU_TOKEN_ADMIN>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -247,12 +269,12 @@ curl -X POST http://localhost:5000/api/trabalhos \
 ### RF03 - Consulta Paginada e Filtrada (Autenticado)
 *Suporta regex case-insensitive por título, filtro por notas/relevância, ordenação e paginação:*
 ```bash
-curl -X GET "http://localhost:5000/api/trabalhos?titulo=eco&minNota=8.0&maxNota=10.0&sortBy=nota&sortOrder=desc&skip=0&limit=10" \
+curl -X GET "http://localhost:5240/api/trabalhos?titulo=eco&minNota=8.0&maxNota=10.0&sortBy=nota&sortOrder=desc&skip=0&limit=10" \
   -H "Authorization: Bearer <SEU_TOKEN>"
 ```
 
 ### RF04 - Consulta de Trabalho por ID com HATEOAS
 ```bash
-curl -X GET http://localhost:5000/api/trabalhos/<ID_DO_TRABALHO> \
+curl -X GET http://localhost:5240/api/trabalhos/<ID_DO_TRABALHO> \
   -H "Authorization: Bearer <SEU_TOKEN>"
 ```

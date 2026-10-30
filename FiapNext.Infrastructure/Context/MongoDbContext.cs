@@ -16,6 +16,7 @@ public class MongoDbContext
         MongoMappings.Configure();
 
         var clientSettings = MongoClientSettings.FromConnectionString(settings.Value.ConnectionString);
+        clientSettings.ServerSelectionTimeout = TimeSpan.FromSeconds(2);
         _client = new MongoClient(clientSettings);
         _database = _client.GetDatabase(settings.Value.DatabaseName);
     }

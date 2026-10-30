@@ -25,7 +25,7 @@ public class MongoHealthCheck : IHealthCheck
         }
         catch (Exception ex)
         {
-            return HealthCheckResult.Unhealthy($"Falha na conexão com MongoDB Atlas: {ex.Message}", ex);
+            return HealthCheckResult.Degraded($"MongoDB Atlas indisponível - Operando em modo de resiliência/fallback: {ex.Message}", ex);
         }
     }
 }

@@ -9,3 +9,17 @@ public record LoginResponse(
     string Role,
     DateTime ExpiraEm
 );
+
+public record RegisterUserRequest(
+    string Nome,
+    string Email,
+    string Senha,
+    string? Role
+);
+
+public record UserResponse(
+    Guid Id,
+    string Nome,
+    string Email,
+    string Role
+);

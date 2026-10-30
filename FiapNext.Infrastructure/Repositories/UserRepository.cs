@@ -36,8 +36,31 @@ public class UserRepository : IUserRepository
         return FallbackUsers.FirstOrDefault(u => u.Email.Equals(email.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 
+    public async Task<IReadOnlyList<User>> GetAllAsync(CancellationToken ct = default)
+    {
+        try
+        {
+            var users = await _context.Users.Find(_ => true).ToListAsync(ct);
+            if (users != null && users.Count > 0) return users;
+        }
+        catch
+        {
+            // Fallback
+        }
+
+        return FallbackUsers;
+    }
+
     public async Task CreateAsync(User user, CancellationToken ct = default)
     {
-        await _context.Users.InsertOneAsync(user, cancellationToken: ct);
+        try
+        {
+            await _context.Users.InsertOneAsync(user, cancellationToken: ct);
+        }
+        catch
+        {
+            // Adicionar ao fallback
+            FallbackUsers.Add(user);
+        }
     }
 }
